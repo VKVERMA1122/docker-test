@@ -7,13 +7,13 @@ ENV PORT=$PORT
 WORKDIR /usr/src/app
 
 # Copy package files
-COPY package*.json ./
+COPY server/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy app source
-COPY . .
+COPY server/ ./
 
 # Expose the port from environment
 EXPOSE ${PORT}
