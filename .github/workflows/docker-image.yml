@@ -44,8 +44,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            docker pull vkverma1122/docker-test:latest
-            docker stop docker-test || true
-            docker rm docker-test || true
-            docker run -d --restart unless-stopped --name docker-test -p 3000:3000 vkverma1122/docker-test:latest
+            cd /path/to/your/project  # Update this path
+            docker-compose pull
+            docker-compose up -d
             docker image prune -f
