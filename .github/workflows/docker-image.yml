@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./server
-          file: ./Dockerfile
+          file: ./server/Dockerfile
           push: true
           tags: vkverma1122/docker-test:latest
           cache-from: type=registry,ref=vkverma1122/docker-test:latest
