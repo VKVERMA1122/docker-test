@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  # or whichever branch you want to trigger deploys
+      - main
 
 jobs:
   build-and-deploy:
@@ -14,26 +14,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. Set up Docker Buildx (optional but useful for multi-arch builds)
+      # 2. (Optional) Run tests before building
+      - name: Run tests
+        run: npm test
+
+      # 3. Set up Docker Buildx (optional but useful for multi-arch builds)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # 3. Login to Docker Hub (requires secrets set up)
+      # 4. Login to Docker Hub (requires secrets set up)
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 4. Build and push the Docker image
+      # 5. Build and push the Docker image with caching
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
           tags: vkverma1122/docker-test:latest
+          cache-from: type=registry,ref=vkverma1122/docker-test:latest
+          cache-to: type=inline
 
-      # 5. Deploy to VPS using SSH
+      # 6. Deploy to VPS using SSH
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -44,4 +50,5 @@ jobs:
             docker pull vkverma1122/docker-test:latest
             docker stop docker-test || true
             docker rm docker-test || true
-            docker run -d --name docker-test -p 3000:3000 vkverma1122/docker-test:latest
+            docker run -d --restart unless-stopped --name docker-test -p 3000:3000 vkverma1122/docker-test:latest
+            docker image prune -f
