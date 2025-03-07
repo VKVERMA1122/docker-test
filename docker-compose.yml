@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    container_name: docker-test-app
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
     restart: unless-stopped
 
   db:
+    container_name: docker-test-db
     image: postgres:15
     ports:
       - "5432:5432"
