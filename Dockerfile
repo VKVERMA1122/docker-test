@@ -1,22 +1,18 @@
 FROM node:18
 
-# Set default port value
 ARG PORT=3333
 ENV PORT=$PORT
 
 WORKDIR /usr/src/app
 
-# Copy package files
+# Copy package files from server directory
 COPY server/package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy app source
+# Copy server contents
 COPY server/ ./
 
-# Expose the port from environment
 EXPOSE ${PORT}
 
-# Start the application
-CMD [ "node", "server/index.js" ]
+# Start the application (index.js will be in root of WORKDIR now)
+CMD [ "node", "index.js" ]
