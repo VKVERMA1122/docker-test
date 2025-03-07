@@ -21,7 +21,7 @@ async function testConnection() {
 testConnection();
 
 app.get("/", (req, res) => {
-	res.status(200).json("Hello World");
+	res.status(200).json("Hi");
 });
 
 app.listen(PORT, () => {
