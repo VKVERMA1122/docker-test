@@ -1,6 +1,6 @@
 FROM node:18
 
-ARG PORT=3333
+ARG PORT=3000
 ENV PORT=$PORT
 
 WORKDIR /usr/src/app
