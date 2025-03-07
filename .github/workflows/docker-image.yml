@@ -33,7 +33,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./server
+          file: ./server/Dockerfile
           push: true
           tags: vkverma1122/docker-test:latest
           cache-from: type=registry,ref=vkverma1122/docker-test:latest
