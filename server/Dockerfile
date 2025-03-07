@@ -5,14 +5,13 @@ ENV PORT=$PORT
 
 WORKDIR /usr/src/app
 
-# Copy package files from server directory
-COPY server/package*.json ./
+# Copy package files (now relative to server directory)
+COPY package*.json ./
 RUN npm install
 
-# Copy server contents
-COPY server/ ./
+# Copy all files from current directory
+COPY . .
 
 EXPOSE ${PORT}
 
-# Start the application (index.js will be in root of WORKDIR now)
 CMD [ "node", "index.js" ]
